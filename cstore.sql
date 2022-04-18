@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2022 at 12:05 PM
+-- Generation Time: Apr 18, 2022 at 12:44 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -20,6 +20,52 @@ SET time_zone = "+00:00";
 --
 -- Database: `cstore`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addcarts`
+--
+
+CREATE TABLE `addcarts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `pid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'addcart',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `addcarts`
+--
+
+INSERT INTO `addcarts` (`id`, `pid`, `uid`, `price`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
+(3, 2, 3, 200, 1, 'addcart', NULL, NULL),
+(4, 2, 3, 200, 1, 'addcart', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addgalleries`
+--
+
+CREATE TABLE `addgalleries` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `addgallery` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `addgalleries`
+--
+
+INSERT INTO `addgalleries` (`id`, `addgallery`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'cstore1.jpg', 'jijimol', NULL, '2022-04-18 05:04:02');
 
 -- --------------------------------------------------------
 
@@ -89,7 +135,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2022_03_16_105602_create_userregisters_table', 1),
 (6, '2022_03_18_092246_create_usercontacts_table', 2),
-(7, '2022_03_21_111218_create_addproducts_table', 3);
+(7, '2022_03_21_111218_create_addproducts_table', 3),
+(11, '2022_03_30_102343_create_addcarts_table', 4),
+(12, '2022_04_08_104353_create_addgalleries_table', 5),
+(14, '2022_04_13_085122_create_payments_table', 6);
 
 -- --------------------------------------------------------
 
@@ -102,6 +151,33 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `debitcardnumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cvv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expirydate` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cardholdername` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uid` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `debitcardnumber`, `cvv`, `expirydate`, `cardholdername`, `amount`, `uid`, `created_at`, `updated_at`) VALUES
+(1, '48515156156451', '235', '2022-04-15', 'jiji', '6200', 3, NULL, NULL),
+(2, '4562587445454', '235', '2022-04-21', 'jijimol', '8300', 3, NULL, NULL),
+(3, '51561655641565', '452', '2022-04-27', 'jiji', '8300', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -142,7 +218,8 @@ CREATE TABLE `usercontacts` (
 --
 
 INSERT INTO `usercontacts` (`id`, `yourname`, `phonenumber`, `email`, `message`, `created_at`, `updated_at`) VALUES
-(1, 'jiji', '09845465595', 'jiji@gmail.com', 'rthjk', NULL, NULL);
+(1, 'jiji', '09845465595', 'jiji@gmail.com', 'rthjk', NULL, NULL),
+(2, 'lilly', '09996514811', 'lilly@gmail.com', 'dfghbjkl;', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -166,7 +243,7 @@ CREATE TABLE `userregisters` (
 
 INSERT INTO `userregisters` (`id`, `name`, `contactnumber`, `email`, `password`, `created_at`, `updated_at`) VALUES
 (2, 'kukku', '985247755', 'kukku@gmail.com', 'kukku1234', NULL, NULL),
-(3, 'jiji', '09845465595', 'jiji@gmail.com', '1234', NULL, NULL),
+(3, 'jiji', '09845465595', 'jiji@gmail.com', '1234', NULL, '2022-03-31 03:22:47'),
 (5, 'kukku', '985247755', 'kukku@gmail.com', '1234', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -189,6 +266,18 @@ CREATE TABLE `users` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `addcarts`
+--
+ALTER TABLE `addcarts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `addgalleries`
+--
+ALTER TABLE `addgalleries`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `addproducts`
@@ -214,6 +303,12 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -247,6 +342,18 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `addcarts`
+--
+ALTER TABLE `addcarts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `addgalleries`
+--
+ALTER TABLE `addgalleries`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `addproducts`
 --
 ALTER TABLE `addproducts`
@@ -262,7 +369,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -274,7 +387,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `usercontacts`
 --
 ALTER TABLE `usercontacts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `userregisters`
