@@ -10,6 +10,8 @@ use App\Models\viewusers;
 use App\Models\viewfeedback;
 use App\Models\addproducts;
 use App\Models\viewproducts;
+use App\Models\addgallery;
+use App\Models\viewgallery;
 use Auth;
 
 
@@ -96,6 +98,57 @@ Auth::logout();
 Return redirect ('/addproducts');
 
 }
+public function addgallery()
+  {
+    return view('user.addgallery');
+  }
+  public function addgalleryaction(request $req)
+  {
+    $addgallery = $req->file('addgallery');
+    $filename = $addgallery->getClientOriginalName();
+    $addgallery->move(public_path().'/images/',$filename);
+    $description = $req->input('description');
+
+     $data=['addgallery'=>$filename,
+    'description'=>$description];
+
+      $result=addgallery::insert($data);
+    return redirect('/addgallery');
+
+}
+ public function viewgallery()
+  {
+    $id=session('sessionid');
+    $data['result']=addgallery::get();
+    return view('user.viewgallery',$data);
+  }
+   public function editgallery($id)
+    {
+        $data['result']=addgallery:: where('id',$id)->get();
+        return view('user.editgallery',$data,);
+     }
+      public function updatedata(request $req,$id)
+    {
+        $addgallery = $req->file('addgallery');
+                $description = $req->input('description');
+      if($addgallery=="")
+      {
+
+        $data=['description'=>$description];
+      } 
+      else
+      {
+         $filename = $addgallery->getClientOriginalName();
+        $addgallery->move(public_path().'/images/',$filename);
+
+         $data=['addgallery'=>$filename,
+    'description'=>$description];
+    
+      }
+   
+    $result=addgallery::where('id',$id)->update($data);
+     return redirect('/addgallery');
+ }
 }
 
     

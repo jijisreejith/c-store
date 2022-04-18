@@ -1,30 +1,28 @@
- @extends('adminheader')
+ @extends('user.userheader')
     @section('mainbody')
+<html>
+
 <head>
      <style>
-      table {
+table {
   border-collapse: collapse;
-  border: 1px solid black;
-} 
-      th,td {
-  border: 1px solid black;
+  width: 100%;
 }
-table.c {
-  table-layout: auto;
-  width: 100%;  
-}
-th {
-  background-color: blue;
-  color: white;
-}
-body {
-  background-color: lightgray;
-  height: 100%;
-    }
-</style>
 
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color: coral;}
+
+</style>
+</head>
+<body>
    <center> 
-   <h2>VIEW PRODUCTS</h2>      
+ <h1 style="padding: 1%; background-color: rgb(67, 66, 68); color: rgb(240, 236, 236); text-align: center;background-size: 25%; ">
+     MEDICINES</h1>    
      <table>
         <table cellpadding="10px" align="center">
           
@@ -33,7 +31,6 @@ body {
                <th>Product Name</th>
                <th>Product Price</th>
                <th>Date</th>
-               <th>Action</th>
          </tr>
        @foreach($result as $value)
           <tr>
@@ -42,8 +39,7 @@ body {
              <td>{{$value->productname}}</td>
              <td>{{$value->productprice}}</td>
              <td>{{$value->date}}</td>
-             <td><a href="/delete/{{$value->id}}">Delete</a></td>
-             <td><a href="/edit/{{$value->id}}">Edit</a></td>
+            
         
           </tr>
            @endforeach

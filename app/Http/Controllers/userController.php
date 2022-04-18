@@ -10,17 +10,30 @@ use App\Models\viewfeedback;
 use App\Models\addproducts;
 use App\models\addcart;
 use App\models\viewcart;
+use App\Models\payments;
+use App\Models\medicines;
+
 
 
 
 
 class userController extends Controller
 {
+     public function __construct()
+  {
+    $this->obj=new addcart;
+}
     
     public function index()
     {
         $data['result']=addproducts::get();
         return view('user.index',$data);
+    }
+    public function medicines()
+    {
+        $data['result']=addproducts::get();
+
+    return view('user.medicines',$data);
     }
     public function userregister()
   {
@@ -136,9 +149,80 @@ class userController extends Controller
 $data['result']=addcart::join('addproducts','addproducts.id','=', 'addcarts.pid')
 ->where('addcarts.uid',$id)
 ->where('addcarts.status',"addcart")
-->select(['addproducts.id','addproducts.productname','addproducts.productimage','addproducts.productprice','addcarts.quantity','addcarts.price'])
+->select(['addcarts.id','addproducts.productname','addproducts.productimage','addproducts.productprice','addcarts.quantity','addcarts.price','addcarts.pid','addcarts.status'])
 ->get();
 // print_r($data);
 return view('user.viewcart',$data);
    }
+   public function deletedata($id)
+    {
+        $data=addcart::where('id',$id)->delete();
+        return redirect('/viewcart');
+    }
+   public function total(request $req,$id)
+    {
+        // $cid=session('sess');
+       $pid=$req->input('pid');
+       $qnty=$req->input('qnty');
+       $total=$req->input('total');
+       $data=[
+        // ?'p_id'=>$pid,
+        'price'=>$total,
+        'quantity'=>$qnty
+    ];
+        $res=addcart::where('id',$id)->update($data);
+        
+    }
+         public function buyproduct()
+  {
+    $id=session('sessionid');
+$data['result']=addcart::join('addproducts','addproducts.id','=', 'addcarts.pid')
+->where('addcarts.uid',$id)
+->where('addcarts.status',"addcart")
+->select(['addcarts.id','addproducts.productname','addproducts.productimage','addproducts.productprice','addcarts.quantity','addcarts.price','addcarts.pid'])
+->get();
+$data['sum']=$this->obj->productsum('addcarts',$id);
+// print_r($data);
+return view('user.buyproduct',$data);
   }
+
+// public function total price()
+// {
+//     buyproduct::where('id',$id)->sum('quantity');
+
+//   return products::where('id_buyproduct', Auth::user()->id)->get();
+// }
+  public function payments()
+  {
+$id=session('sessionid');
+
+ $data['sum']=$this->obj->productsum('addcarts',$id);
+ // $data['sum']=$this->obj->productsum('addcarts',$id);
+
+
+    return view('user.payments',$data);
+  }
+  public function  paymentAction(request $req)
+  {
+    $id=session('sessionid');
+    $data1=['status'=>"payed"];
+    $debitcardnumber = $req->input('debitcardnumber');
+    $cvv = $req->input('cvv');
+    $expirydate = $req->input('expirydate');
+    $cardholdername = $req->input('cardholdername');
+    $amount = $req->input('amount');
+
+    $data1=['debitcardnumber'=>$debitcardnumber,
+    'uid'=>$id,
+    'cvv'=>$cvv,
+    'expirydate'=>$expirydate,
+    'cardholdername'=>$cardholdername,
+    'amount'=>$amount];
+    $result=payments::insert($data1);
+    return redirect('/payments');
+
+    addcart::where('uid',$id)->update($data);
+
+  }
+ 
+}

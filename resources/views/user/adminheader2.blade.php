@@ -58,6 +58,18 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="/addgallery" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Gallery</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/viewgallery" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Gallery</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="/logout" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Logout</p>
